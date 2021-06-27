@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="헤더 파일\3rdparty">
+      <UniqueIdentifier>{43483b76-26f6-4e3f-af49-61ef00a8a6ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\3rdparty\cpp-marching-squares-master">
+      <UniqueIdentifier>{a0603a95-8d6f-4512-9c1f-a525fcdcd668}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\3rdparty\douglas-peucker">
+      <UniqueIdentifier>{b6ee6f75-653b-46e1-9d8c-2748962b0cb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\3rdparty\polypartition-master">
+      <UniqueIdentifier>{4001488c-84b6-4753-8367-490f92d7da91}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -29,6 +41,15 @@
     </ClCompile>
     <ClCompile Include="src\Renderer.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="include\3rdparty\cpp-marching-squares-master\MarchingSquares.cpp">
+      <Filter>헤더 파일\3rdparty\cpp-marching-squares-master</Filter>
+    </ClCompile>
+    <ClCompile Include="include\3rdparty\douglas-peucker\polygon-simplify.cc">
+      <Filter>헤더 파일\3rdparty\douglas-peucker</Filter>
+    </ClCompile>
+    <ClCompile Include="include\3rdparty\polypartition-master\src\polypartition.cpp">
+      <Filter>헤더 파일\3rdparty\polypartition-master</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -48,6 +69,15 @@
     </ClInclude>
     <ClInclude Include="include\Renderer.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\cpp-marching-squares-master\MarchingSquares.h">
+      <Filter>헤더 파일\3rdparty\cpp-marching-squares-master</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\douglas-peucker\polygon-simplify.hh">
+      <Filter>헤더 파일\3rdparty\douglas-peucker</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\polypartition-master\src\polypartition.h">
+      <Filter>헤더 파일\3rdparty\polypartition-master</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
