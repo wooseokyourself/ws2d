@@ -35,7 +35,7 @@
 #define _DARWIN_C_SOURCE 1 /* for memset_pattern4() */
 #endif
 #endif
-
+#include <string.h>
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
