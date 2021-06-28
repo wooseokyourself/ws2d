@@ -20,17 +20,12 @@ RigidObject::RigidObject(SDL_Renderer* Renderer, b2World* b2_World, const std::s
 		exit(1);
 	}
 
-// Surface의 w, h를 입력된 w, h로 리사이즈
-	cout << "Original surface w x h: " << _Surface->w << ", " << _Surface->h << endl;
+	// Resize surface.
 	SDL_Surface* Surface = SDL_CreateRGBSurface(0, w, h, _Surface->format->BitsPerPixel, _Surface->format->Rmask, _Surface->format->Gmask, _Surface->format->Bmask, _Surface->format->Amask);
 	SDL_BlitScaled(_Surface, NULL, Surface, NULL);
-	cout << "Scaled   surface w x h: " << Surface->w << ", " << Surface->h << endl;
 	SDL_FreeSurface(_Surface);
 	BBox.w = w;
 	BBox.h = h;
-	
-
-// Surface를 Triangulate 하여 box2d와 링킹 
 	
 	// Construct thresholded data.
 	unsigned char* data = new unsigned char[w * h];
@@ -38,7 +33,6 @@ RigidObject::RigidObject(SDL_Renderer* Renderer, b2World* b2_World, const std::s
 	Uint8* p;
 	Uint32 pixel;
 	SDL_Color rgba;
-	int debugCnt = 0;
 	for (int _y = 0; _y < h; _y++)
 	{
 		for (int _x = 0; _x < w; _x++)
@@ -67,27 +61,18 @@ RigidObject::RigidObject(SDL_Renderer* Renderer, b2World* b2_World, const std::s
 				break;
 
 			default:
-				pixel = 0;       /* shouldn't happen, but avoids warnings */
+				pixel = 0;       // Shouldn't happen, but avoids warnings.
 			}
 			SDL_GetRGBA(pixel, Surface->format, &rgba.r, &rgba.g, &rgba.b, &rgba.a);
 			if ((int)rgba.a != 0)
-			{
-				debugCnt++;
-				data[_x + (w * _y)] = (unsigned char)255; // (x, y) 가 유효한 픽셀이라면
-				// cout << "o";
-			}
+				data[_x + (w * _y)] = (unsigned char)255; // If (x, y) is valid pixels
 			else
-			{
 				data[_x + (w * _y)] = (unsigned char)0;
-				// cout << "x";
-			}
 		}
-		// cout << endl;
 	}
 
-	// Marching-sqaure
+	// Marching-sqaure.
 	MarchingSquares::Result ms_Result = MarchingSquares::FindPerimeter(w, h, data);
-	cout << "ms start: " << "(" << ms_Result.initialX << "," << ms_Result.initialY << "), ms_Result.directions: " << ms_Result.directions.size() << endl;
 
 	// Convert the result of marching-squares points to b2Vec.
 	std::vector<b2Vec2> b2_PolyCorners;
@@ -104,9 +89,6 @@ RigidObject::RigidObject(SDL_Renderer* Renderer, b2World* b2_World, const std::s
 	b2_PolyCorners = DouglasPeucker::simplify(b2_PolyCorners, 2);
 
 	// Pre-process for poly-partition.
-	// if (b2_PolyCorners.size() < 3) 만약 삼각형형성이 안되면 버리는거
-	// 	continue;
-
 	TPPLPoly tpp_Poly;
 	tpp_Poly.Init((long)b2_PolyCorners.size());
 
@@ -124,6 +106,7 @@ RigidObject::RigidObject(SDL_Renderer* Renderer, b2World* b2_World, const std::s
 	tpp_Part.Triangulate_EC(&tpp_Poly, &tpp_Results);
 
 	// Pre-process for box2d.
+	std::vector<b2PolygonShape> b2_Triangles;
 	std::for_each(tpp_Results.begin(), tpp_Results.end(), [&](TPPLPoly cur)
 	{
 		b2Vec2 vec[3] =
@@ -140,56 +123,23 @@ RigidObject::RigidObject(SDL_Renderer* Renderer, b2World* b2_World, const std::s
 		}
 	});
 
-
-
-	// Define the dynamic body. We set its position and call the body factory.
+	// Define the dynamic body and add it to the box2d world.
 	b2BodyDef b2_BodyDef;
 	b2_BodyDef.type = b2_dynamicBody;
 	b2_BodyDef.angle = degree / RAD2DEG;
 	b2_BodyDef.position.Set(x, -y);
 	b2_Body = b2_World->CreateBody(&b2_BodyDef);
-
-	// fixtures 는 body로부터 transform을 상속받는다.
 	for (b2PolygonShape p : b2_Triangles)
 	{
-		// Define the dynamic body fixture.
 		b2FixtureDef b2_FixtureDef;
 		b2_FixtureDef.shape = &p;
-
-		// Set the box density to be non-zero, so it will be dynamic.
 		b2_FixtureDef.density = 1.0f;
-
-		// Override the default friction.
 		b2_FixtureDef.friction = 0.3f;
-
 		b2_FixtureDef.restitution = 0.1f;
-
-		// Add the shape to the body.
 		b2_Body->CreateFixture(&b2_FixtureDef);
 	}
-	cout << "Triangles number: " << b2_Triangles.size() << endl;
 
-
-	/*
-	b2BodyDef b2_BoxBodyDef;
-	b2_BoxBodyDef.type = b2_dynamicBody;
-	b2_BoxBodyDef.angle = degree / RAD2DEG;
-	b2_BoxBodyDef.position.Set(x, y); // x, y는 b2Body의 정중앙 위치
-
-	b2_Body = b2_World->CreateBody(&b2_BoxBodyDef);
-
-	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(w, h);
-
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &dynamicBox;
-	fixtureDef.density = 1;
-	fixtureDef.friction = 0.3f;
-	fixtureDef.restitution = 0.5f;
-	b2_Body->CreateFixture(&fixtureDef);
-	*/
-
-	// Make a texture of surface
+	// Make a texture from surface.
 	Texture = SDL_CreateTextureFromSurface(Renderer, Surface);
 	if (Texture == NULL)
 	{
@@ -217,7 +167,8 @@ void RigidObject::Draw()
 	SDL_Point p; p.x = 0; p.y = 0;
 	SDL_RenderCopyEx(Renderer, Texture, NULL, &BBox, -Degree, &p, SDL_FLIP_NONE);
 
-	// Draw polygons
+	// Draw polygons.
+	/*
 	b2Fixture* F = b2_Body->GetFixtureList();
 	SDL_SetRenderDrawColor(Renderer, 0, 255, 0, 100);
 	while (F != NULL)
@@ -242,4 +193,5 @@ void RigidObject::Draw()
 	b2Vec2 v0 = b2_Body->GetPosition();
 	SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
 	SDL_RenderDrawPoint(Renderer, v0.x, -v0.y);
+	*/
 }

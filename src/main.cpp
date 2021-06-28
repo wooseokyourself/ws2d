@@ -45,9 +45,16 @@ int main(int argc, char* argv[])
     edgeFixtureDef.shape = &edgeShape;
     groundLineBody->CreateFixture(&edgeFixtureDef);
 
-
-
-
+	RigidObject GroundA(Renderer, b2_World, "assets/ground.png", 0, 300, 100, 30, 0);
+	RigidObject GroundB(Renderer, b2_World, "assets/ground.png", 100, 300, 100, 30, 0);
+	RigidObject GroundC(Renderer, b2_World, "assets/ground.png", 200, 300, 100, 30, 0);
+	RigidObject GroundD(Renderer, b2_World, "assets/ground.png", 300, 300, 100, 30, 0);
+	RigidObject GroundE(Renderer, b2_World, "assets/ground.png", 400, 300, 100, 30, 0);
+	RigidObject GroundF(Renderer, b2_World, "assets/ground.png", 500, 300, 100, 30, 0);
+	RigidObject GroundG(Renderer, b2_World, "assets/ground.png", 600, 300, 100, 30, 0);
+	RigidObject GroundH(Renderer, b2_World, "assets/ground.png", 700, 300, 100, 30, 0);
+	RigidObject GroundI(Renderer, b2_World, "assets/ground.png", 800, 300, 100, 30, 0);
+	RigidObject GroundJ(Renderer, b2_World, "assets/ground.png", 900, 300, 100, 30, 0);
 	RigidObject TreeA(Renderer, b2_World, "assets/tree_s.png", 10, 100, 50, 100, 0);
 	RigidObject TreeB(Renderer, b2_World, "assets/tree_s.png", 200, 100, 50, 100, 90);
 	RigidObject TreeC(Renderer, b2_World, "assets/tree_s.png", 350, 100, 50, 100, 180);
@@ -97,6 +104,26 @@ int main(int argc, char* argv[])
 		SDL_SetRenderDrawColor(Renderer, 255, 0, 0, 0);
 		SDL_RenderDrawLine(Renderer, edgeShape.m_vertex1.x, -edgeShape.m_vertex1.y, edgeShape.m_vertex2.x, -edgeShape.m_vertex2.y);
 
+		GroundA.Update();
+		GroundA.Draw();
+		GroundB.Update();
+		GroundB.Draw();
+		GroundC.Update();
+		GroundC.Draw();
+		GroundD.Update();
+		GroundD.Draw();
+		GroundE.Update();
+		GroundE.Draw();
+		GroundF.Update();
+		GroundF.Draw();
+		GroundG.Update();
+		GroundG.Draw();
+		GroundH.Update();
+		GroundH.Draw();
+		GroundI.Update();
+		GroundI.Draw();
+		GroundJ.Update();
+		GroundJ.Draw();
 		TreeA.Update();
 		TreeA.Draw();
 		TreeB.Update();

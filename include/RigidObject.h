@@ -19,8 +19,7 @@ private:
 	SDL_Renderer* Renderer; // reference
 
 private: // Box2d
-	std::vector<b2PolygonShape> b2_Triangles; // for debug
-	b2Body* b2_Body; // 누끼따지않고 모든객체를 박스로취급
+	b2Body* b2_Body;
 
 private: // Texture
 	SDL_Texture* Texture;
