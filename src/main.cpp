@@ -8,15 +8,16 @@
 
 using namespace std;
 
-const int WIDTH = 1000, HEIGHT = 480;
+const int LEVEL_WIDTH = 2000, LEVEL_HEIGHT = 1000;
+const int SCREEN_WIDTH = 640, SCREEN_HEIGHT = 480;
 
 int main(int argc, char* argv[])
 {
     // Renderer
-	SDL_Renderer* Renderer = InitRenderer("title", WIDTH, HEIGHT);
+	SDL_Renderer* Renderer = InitRenderer("title", LEVEL_WIDTH, LEVEL_HEIGHT);
 
     // Level
-    Level* BasicLevel = new Level(WIDTH, HEIGHT);
+    Level* BasicLevel = new Level(LEVEL_WIDTH, LEVEL_HEIGHT);
     
     // Objects
 	RigidObject* TreeA = new RigidObject(Renderer, "assets/tree_s.png", 50, 100);
@@ -36,6 +37,13 @@ int main(int argc, char* argv[])
     TreeC->SetRotation(180.0f);
     TreeD->SetRotation(270.0f);
 
+    // Camera
+    SDL_Rect View;
+    View.x = 0;
+    View.y = 0;
+    View.w = SCREEN_WIDTH;
+    View.h = SCREEN_HEIGHT;
+    
 	// Game loop
 	bool GameLoop = true;
 	while (GameLoop)

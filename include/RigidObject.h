@@ -15,7 +15,7 @@ public:
     void SetPosition(const int x, const int y);
     void SetRotation(const float degree);
 	virtual void Update();
-    void Draw(SDL_Renderer* Renderer); // for debug, override
+    virtual void Draw(SDL_Renderer* Renderer); // for debug, override
     void ApplyPhysics(b2World* b2_World);
     
 private: // Box2d

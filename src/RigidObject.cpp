@@ -47,6 +47,8 @@ void RigidObject::Update()
 
 void RigidObject::Draw(SDL_Renderer* Renderer)
 {
+    Object::Draw(Renderer);
+    
 	// Draw polygons.
 	b2Fixture* F = m_b2_Body->GetFixtureList();
 	SDL_SetRenderDrawColor(Renderer, 0, 255, 0, 100);
@@ -80,8 +82,6 @@ void RigidObject::Draw(SDL_Renderer* Renderer)
 	b2Vec2 v0 = m_b2_Body->GetPosition();
 	SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
 	SDL_RenderDrawPoint(Renderer, v0.x, -v0.y);
-	
-    Object::Draw(Renderer);
 }
 
 void RigidObject::ApplyPhysics(b2World* b2_World)
