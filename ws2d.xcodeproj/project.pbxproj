@@ -68,6 +68,8 @@
 		5D52F64C2689CBF6009B5C88 /* libSDL2main.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D52F63E2689CBF5009B5C88 /* libSDL2main.a */; };
 		5D52F64D2689CBF6009B5C88 /* libSDL2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D52F63F2689CBF5009B5C88 /* libSDL2.dylib */; };
 		5D52F64E2689CBF6009B5C88 /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D52F6402689CBF5009B5C88 /* libSDL2.a */; };
+		5D770D00268C8D980096A483 /* Level.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5D770CFE268C8D980096A483 /* Level.cpp */; };
+		5D770D02268C8F7D0096A483 /* Object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5D770D01268C8F7D0096A483 /* Object.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -350,6 +352,10 @@
 		5D52F6522689CE3A009B5C88 /* ground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ground.png; sourceTree = "<group>"; };
 		5D52F6532689CF80009B5C88 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		5D54EE0E2689A0C1004F682B /* ws2d */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ws2d; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D770CFE268C8D980096A483 /* Level.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Level.cpp; sourceTree = "<group>"; };
+		5D770CFF268C8D980096A483 /* Level.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Level.h; sourceTree = "<group>"; };
+		5D770D01268C8F7D0096A483 /* Object.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Object.cpp; sourceTree = "<group>"; };
+		5D770D03268C8F8F0096A483 /* Object.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Object.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -377,8 +383,10 @@
 				5D52F4212689C9D5009B5C88 /* 3rdparty */,
 				5D52F41D2689C990009B5C88 /* GameLoop.h */,
 				5D52F41B2689C990009B5C88 /* Interface.h */,
+				5D770CFF268C8D980096A483 /* Level.h */,
 				5D52F41E2689C990009B5C88 /* Renderer.h */,
 				5D52F41C2689C990009B5C88 /* RigidObject.h */,
+				5D770D03268C8F8F0096A483 /* Object.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -763,6 +771,8 @@
 				5D52F5892689CA5C009B5C88 /* RigidObject.cpp */,
 				5D52F58A2689CA5C009B5C88 /* main.cpp */,
 				5D52F58B2689CA5C009B5C88 /* Renderer.cpp */,
+				5D770CFE268C8D980096A483 /* Level.cpp */,
+				5D770D01268C8F7D0096A483 /* Object.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -1011,6 +1021,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D770D00268C8D980096A483 /* Level.cpp in Sources */,
 				5D52F4D22689CA23009B5C88 /* b2_mouse_joint.cpp in Sources */,
 				5D52F4BC2689CA23009B5C88 /* b2_joint.cpp in Sources */,
 				5D52F4D32689CA23009B5C88 /* b2_circle_contact.cpp in Sources */,
@@ -1023,6 +1034,7 @@
 				5D52F4DB2689CA23009B5C88 /* b2_settings.cpp in Sources */,
 				5D52F58D2689CA5C009B5C88 /* GameLoop.cpp in Sources */,
 				5D52F4D12689CA23009B5C88 /* b2_island.cpp in Sources */,
+				5D770D02268C8F7D0096A483 /* Object.cpp in Sources */,
 				5D52F5072689CA43009B5C88 /* polypartition.cpp in Sources */,
 				5D52F4CB2689CA23009B5C88 /* b2_edge_circle_contact.cpp in Sources */,
 				5D52F4CE2689CA23009B5C88 /* b2_wheel_joint.cpp in Sources */,

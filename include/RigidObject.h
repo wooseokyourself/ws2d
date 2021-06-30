@@ -5,25 +5,21 @@
 #include <box2d.h>
 #include <SDL.h>
 #include <SDL_image.h>
-#include "Renderer.h"
+#include "Object.h"
 
-class RigidObject
+class RigidObject : public Object
 {
 public:
-	RigidObject(SDL_Renderer* Renderer, b2World* b2_World, const std::string PngPath, const int x, const int y, const int w, const int h, const float degree);
+	RigidObject(SDL_Renderer* Renderer, const std::string PngPath, const int w, const int h);
 	~RigidObject();
-	void Update();
-	void Draw();
-
-private:
-	SDL_Renderer* Renderer; // reference
-
+    void SetPosition(const int x, const int y);
+    void SetRotation(const float degree);
+	virtual void Update();
+    void Draw(SDL_Renderer* Renderer); // for debug, override
+    void ApplyPhysics(b2World* b2_World);
+    
 private: // Box2d
-	b2Body* b2_Body;
-
-private: // Texture
-	SDL_Texture* Texture;
-	SDL_Rect BBox;
-	float Degree;
+	b2Body* m_b2_Body;
+    SDL_Surface* Surface;
 };
 
