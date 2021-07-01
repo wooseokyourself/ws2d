@@ -24,7 +24,9 @@
     <ClCompile Include="include\3rdparty\polypartition-master\src\polypartition.cpp" />
     <ClCompile Include="src\GameLoop.cpp" />
     <ClCompile Include="src\Interface.cpp" />
+    <ClCompile Include="src\Level.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\RigidObject.cpp" />
   </ItemGroup>
@@ -39,6 +41,8 @@
     <ClInclude Include="include\3rdparty\polypartition-master\src\polypartition.h" />
     <ClInclude Include="include\GameLoop.h" />
     <ClInclude Include="include\Interface.h" />
+    <ClInclude Include="include\Level.h" />
+    <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\Renderer.h" />
     <ClInclude Include="include\RigidObject.h" />
   </ItemGroup>

@@ -51,6 +51,12 @@
     <ClCompile Include="include\3rdparty\polypartition-master\src\polypartition.cpp">
       <Filter>헤더 파일\3rdparty\polypartition-master</Filter>
     </ClCompile>
+    <ClCompile Include="src\Level.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
@@ -78,6 +84,12 @@
     </ClInclude>
     <ClInclude Include="include\3rdparty\polypartition-master\src\polypartition.h">
       <Filter>헤더 파일\3rdparty\polypartition-master</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Level.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Object.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
