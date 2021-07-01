@@ -58,7 +58,7 @@ void Level::Update()
     m_b2_World->Step(1.0f / 60.0f, 6.0f, 2.0f);
 }
 
-void Level::Draw(SDL_Renderer* Renderer)
+void Level::Draw(SDL_Renderer* Renderer) const
 {
     for(Object* obj : m_Objects)
         obj->Draw(Renderer);

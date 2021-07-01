@@ -16,7 +16,7 @@ public:
     b2Vec2 GetPosition();
     SDL_Rect GetBoundingBox();
     virtual void Update();
-    virtual void Draw(SDL_Renderer* Renderer);
+    virtual void Draw(SDL_Renderer* Renderer) const;
     
 protected:
     SDL_Surface* PngToSurface(const std::string& PngPath, const int w, const int h);

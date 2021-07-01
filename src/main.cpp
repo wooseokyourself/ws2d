@@ -14,16 +14,17 @@ const int SCREEN_WIDTH = 640, SCREEN_HEIGHT = 480;
 int main(int argc, char* argv[])
 {
     // Renderer
-	SDL_Renderer* Renderer = InitRenderer("title", LEVEL_WIDTH, LEVEL_HEIGHT);
+	Renderer* OnlyRenderer = Renderer::GetRenderer("WindowTitle", SCREEN_WIDTH, SCREEN_HEIGHT);
+	SDL_Renderer* sdl_Renderer = OnlyRenderer->GetSDLRenderer();
 
     // Level
     Level* BasicLevel = new Level(LEVEL_WIDTH, LEVEL_HEIGHT);
     
     // Objects
-	RigidObject* TreeA = new RigidObject(Renderer, "assets/tree_s.png", 50, 100);
-	RigidObject* TreeB = new RigidObject(Renderer, "assets/tree_s.png", 50, 100);
-	RigidObject* TreeC = new RigidObject(Renderer, "assets/tree_s.png", 50, 100);
-	RigidObject* TreeD = new RigidObject(Renderer, "assets/tree_s.png", 50, 100);
+	RigidObject* TreeA = new RigidObject(sdl_Renderer, "assets/tree_s.png", 50, 100);
+	RigidObject* TreeB = new RigidObject(sdl_Renderer, "assets/tree_s.png", 50, 100);
+	RigidObject* TreeC = new RigidObject(sdl_Renderer, "assets/tree_s.png", 50, 100);
+	RigidObject* TreeD = new RigidObject(sdl_Renderer, "assets/tree_s.png", 50, 100);
     BasicLevel->AddObject(TreeA);
     BasicLevel->AddObject(TreeB);
     BasicLevel->AddObject(TreeC);
@@ -78,21 +79,10 @@ int main(int argc, char* argv[])
 				}
 			}
 		}
-
-		// Render
-		// SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 255);
-
-		SDL_RenderClear(Renderer);
-		
-		// Draw ground platform
-		SDL_SetRenderDrawColor(Renderer, 255, 0, 0, 0);
         
         BasicLevel->Update();
-        BasicLevel->Draw(Renderer);
-
-		SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 0);
-		SDL_RenderPresent(Renderer);
+		OnlyRenderer->Render(BasicLevel);
 	}
-
+	
 	return EXIT_SUCCESS;
 }

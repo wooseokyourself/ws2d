@@ -15,7 +15,7 @@ public:
     void AddObject(Object* obj);
     void AddObject(RigidObject* obj);
     void Update();
-    void Draw(SDL_Renderer* Renderer); // 렌더러를 인자로 받아 모든 Objects 렌더링
+    void Draw(SDL_Renderer* Renderer) const; // 렌더러를 인자로 받아 모든 Objects 렌더링
 private:
     std::list<Object*> m_Objects;
     b2World* m_b2_World;

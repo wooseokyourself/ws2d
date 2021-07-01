@@ -47,7 +47,7 @@ void Object::Update()
     
 }
 
-void Object::Draw(SDL_Renderer* Renderer)
+void Object::Draw(SDL_Renderer* Renderer) const
 {
     SDL_Point p; p.x = 0; p.y = 0;
     SDL_RenderCopyEx(Renderer, m_Texture, NULL, &m_Bbox, -m_Degree, &p, SDL_FLIP_NONE);
