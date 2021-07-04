@@ -16,8 +16,7 @@ public:
 	static void DestroyRenderer();
 
 public:
-	void Render(const Level* TargetLevel);
-	SDL_Renderer* GetSDLRenderer();
+	void Render(Level* TargetLevel, Camera* View);
 
 private:
 	SDL_Window* m_Window;

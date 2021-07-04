@@ -1,6 +1,7 @@
 #include "Level.h"
 
 Level::Level(const int w, const int h)
+    : w(w), h(h)
 {
     b2Vec2 b2_Gravity(0.0f, -9.81f);
     m_b2_World = new b2World(b2_Gravity);
@@ -56,10 +57,4 @@ void Level::Update()
     for(Object* obj : m_Objects)
         obj->Update();
     m_b2_World->Step(1.0f / 60.0f, 6.0f, 2.0f);
-}
-
-void Level::Draw(SDL_Renderer* Renderer) const
-{
-    for(Object* obj : m_Objects)
-        obj->Draw(Renderer);
 }

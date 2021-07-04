@@ -10,13 +10,12 @@ using namespace std;
 
 const float RAD2DEG = 57.2957795131;
 
-RigidObject::RigidObject(SDL_Renderer* Renderer, const std::string PngPath, const int w, const int h)
+RigidObject::RigidObject(const std::string PngPath, const int w, const int h)
 	: Object()
 {
     m_Surface = PngToSurface(PngPath, w, h);
-    m_Bbox.w = w;
-    m_Bbox.h = h;
-    SetTexture(Renderer);
+    m_WorldBox.w = w;
+    m_WorldBox.h = h;
 }
 
 RigidObject::~RigidObject()
@@ -27,13 +26,15 @@ RigidObject::~RigidObject()
 void RigidObject::SetPosition(const int x, const int y)
 {
     Object::SetPosition(x, y);
-    m_b2_Body->SetTransform(b2Vec2(x, -y), m_Degree);
+    if (m_b2_Body)
+        m_b2_Body->SetTransform(b2Vec2(x, -y), m_Degree);
 }
 
 void RigidObject::SetRotation(const float degree)
 {
     Object::SetRotation(degree);
-    m_b2_Body->SetTransform(b2Vec2(m_Bbox.x, -m_Bbox.y), degree);
+    if (m_b2_Body)
+        m_b2_Body->SetTransform(b2Vec2(m_WorldBox.x, -m_WorldBox.y), degree);
 }
 
 
@@ -41,47 +42,8 @@ void RigidObject::Update()
 {
 	const b2Vec2& b2_Position = m_b2_Body->GetPosition();
 	m_Degree = m_b2_Body->GetAngle() * RAD2DEG; // radian to degree
-	m_Bbox.x = b2_Position.x;
-	m_Bbox.y = -b2_Position.y;
-}
-
-void RigidObject::Draw(SDL_Renderer* Renderer)
-{
-    Object::Draw(Renderer);
-    
-	// Draw polygons.
-	b2Fixture* F = m_b2_Body->GetFixtureList();
-	SDL_SetRenderDrawColor(Renderer, 0, 255, 0, 100);
-	while (F != NULL)
-	{
-		switch (F->GetType())
-		{
-            case b2Shape::e_circle:
-                break;
-            case b2Shape::e_edge:
-                break;
-            case b2Shape::e_polygon:
-            {
-            b2PolygonShape* poly = (b2PolygonShape*)F->GetShape();
-            b2Vec2 v1, v2, v3;
-            v1 = m_b2_Body->GetWorldPoint(poly->m_vertices[0]);
-            v2 = m_b2_Body->GetWorldPoint(poly->m_vertices[1]);
-            v3 = m_b2_Body->GetWorldPoint(poly->m_vertices[2]);
-            SDL_RenderDrawLine(Renderer, v1.x, -v1.y, v2.x, -v2.y);
-            SDL_RenderDrawLine(Renderer, v1.x, -v1.y, v3.x, -v3.y);
-            SDL_RenderDrawLine(Renderer, v2.x, -v2.y, v3.x, -v3.y);
-            }
-            break;
-            case b2Shape::e_chain:
-                break;
-            case b2Shape::e_typeCount:
-                break;
-        }
-		F = F->GetNext();
-	}
-	b2Vec2 v0 = m_b2_Body->GetPosition();
-	SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
-	SDL_RenderDrawPoint(Renderer, v0.x, -v0.y);
+	m_WorldBox.x = b2_Position.x;
+    m_WorldBox.y = -b2_Position.y;
 }
 
 void RigidObject::ApplyPhysics(b2World* b2_World)
@@ -189,7 +151,7 @@ void RigidObject::ApplyPhysics(b2World* b2_World)
     b2_BodyDef.type = b2_dynamicBody;
     b2_BodyDef.angle = m_Degree / RAD2DEG;
     // b2_BodyDef.position.Set(x, -y);
-    b2_BodyDef.position.Set(m_Bbox.x, -m_Bbox.y);
+    b2_BodyDef.position.Set(m_WorldBox.x, -m_WorldBox.y);
     m_b2_Body = b2_World->CreateBody(&b2_BodyDef);
     for (b2PolygonShape p : b2_Triangles)
     {
@@ -200,5 +162,6 @@ void RigidObject::ApplyPhysics(b2World* b2_World)
         b2_FixtureDef.restitution = 0.1f;
         m_b2_Body->CreateFixture(&b2_FixtureDef);
     }
-    SDL_FreeSurface(m_Surface);
+
+    m_b2_Body->SetTransform(b2Vec2(m_WorldBox.x, -m_WorldBox.y), m_Degree);
 }

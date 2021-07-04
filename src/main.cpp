@@ -5,6 +5,7 @@
 #include "Renderer.h"
 #include "RigidObject.h"
 #include "Level.h"
+#include "Camera.h"
 
 using namespace std;
 
@@ -15,20 +16,18 @@ int main(int argc, char* argv[])
 {
     // Renderer
 	Renderer* OnlyRenderer = Renderer::GetRenderer("WindowTitle", SCREEN_WIDTH, SCREEN_HEIGHT);
-	SDL_Renderer* sdl_Renderer = OnlyRenderer->GetSDLRenderer();
+
+	// Camera
+	Camera* View = new Camera(SCREEN_WIDTH, SCREEN_HEIGHT);
 
     // Level
     Level* BasicLevel = new Level(LEVEL_WIDTH, LEVEL_HEIGHT);
     
     // Objects
-	RigidObject* TreeA = new RigidObject(sdl_Renderer, "assets/tree_s.png", 50, 100);
-	RigidObject* TreeB = new RigidObject(sdl_Renderer, "assets/tree_s.png", 50, 100);
-	RigidObject* TreeC = new RigidObject(sdl_Renderer, "assets/tree_s.png", 50, 100);
-	RigidObject* TreeD = new RigidObject(sdl_Renderer, "assets/tree_s.png", 50, 100);
-    BasicLevel->AddObject(TreeA);
-    BasicLevel->AddObject(TreeB);
-    BasicLevel->AddObject(TreeC);
-    BasicLevel->AddObject(TreeD);
+	RigidObject* TreeA = new RigidObject("assets/tree_s.png", 50, 100);
+	RigidObject* TreeB = new RigidObject("assets/tree_s.png", 50, 100);
+	RigidObject* TreeC = new RigidObject("assets/tree_s.png", 50, 100);
+	RigidObject* TreeD = new RigidObject("assets/tree_s.png", 50, 100);
     TreeA->SetPosition(10, 100);
     TreeB->SetPosition(200, 100);
     TreeC->SetPosition(350, 100);
@@ -37,13 +36,10 @@ int main(int argc, char* argv[])
     TreeB->SetRotation(90.0f);
     TreeC->SetRotation(180.0f);
     TreeD->SetRotation(270.0f);
-
-    // Camera
-    SDL_Rect View;
-    View.x = 0;
-    View.y = 0;
-    View.w = SCREEN_WIDTH;
-    View.h = SCREEN_HEIGHT;
+	BasicLevel->AddObject(TreeA);
+	BasicLevel->AddObject(TreeB);
+	BasicLevel->AddObject(TreeC);
+	BasicLevel->AddObject(TreeD);
     
 	// Game loop
 	bool GameLoop = true;
@@ -60,16 +56,16 @@ int main(int argc, char* argv[])
 				switch (Event.key.keysym.sym)
 				{
 				case SDLK_RIGHT:
-					cout << "r" << endl;
+					View->m_Rect.x += 10;
 					break;
 				case SDLK_LEFT:
-					cout << "l" << endl;
+					View->m_Rect.x -= 10;
 					break;
 				case SDLK_UP:
-					cout << "u" << endl;
+					View->m_Rect.y -= 10;
 					break;
 				case SDLK_DOWN:
-					cout << "d" << endl;
+					View->m_Rect.y += 10;
 					break;
 				case SDLK_ESCAPE:
 					GameLoop = false;
@@ -81,8 +77,8 @@ int main(int argc, char* argv[])
 		}
         
         BasicLevel->Update();
-		OnlyRenderer->Render(BasicLevel);
+		OnlyRenderer->Render(BasicLevel, View);
 	}
-	
+	OnlyRenderer->DestroyRenderer();
 	return EXIT_SUCCESS;
 }

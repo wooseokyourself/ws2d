@@ -39,6 +39,7 @@
     <ClInclude Include="include\3rdparty\cpp-marching-squares-master\MarchingSquares.h" />
     <ClInclude Include="include\3rdparty\douglas-peucker\polygon-simplify.hh" />
     <ClInclude Include="include\3rdparty\polypartition-master\src\polypartition.h" />
+    <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\GameLoop.h" />
     <ClInclude Include="include\Interface.h" />
     <ClInclude Include="include\Level.h" />

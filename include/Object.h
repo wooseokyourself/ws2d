@@ -5,18 +5,20 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
+class Renderer;
+
 class Object
 {
+friend class Renderer;
 public:
     Object();
-    Object(SDL_Renderer* Renderer, const std::string PngPath, const int w, const int h);
+    Object(const std::string PngPath, const int w, const int h);
     ~Object();
     void SetPosition(const int x, const int y);
     void SetRotation(const float degree);
     b2Vec2 GetPosition();
     SDL_Rect GetBoundingBox();
     virtual void Update();
-    virtual void Draw(SDL_Renderer* Renderer) const;
     
 protected:
     SDL_Surface* PngToSurface(const std::string& PngPath, const int w, const int h);
@@ -25,6 +27,6 @@ protected:
 protected: // Texture
     SDL_Surface* m_Surface;
     SDL_Texture* m_Texture;
-    SDL_Rect m_Bbox;
+    SDL_Rect m_WorldBox;
     float m_Degree;
 };

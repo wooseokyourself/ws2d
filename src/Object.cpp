@@ -6,25 +6,24 @@ Object::Object()
     
 }
 
-Object::Object(SDL_Renderer* Renderer, const std::string PngPath, const int w, const int h)
+Object::Object(const std::string PngPath, const int w, const int h)
 : m_Degree(0)
 {
     m_Surface = PngToSurface(PngPath, w, h);
-    m_Bbox.w = w;
-    m_Bbox.h = h;
-    SetTexture(Renderer);
-    SDL_FreeSurface(m_Surface);
+    m_WorldBox.w = w;
+    m_WorldBox.h = h;
 }
 
 Object::~Object()
 {
+    SDL_FreeSurface(m_Surface);
     SDL_DestroyTexture(m_Texture);
 }
 
 void Object::SetPosition(const int x, const int y)
 {
-    m_Bbox.x = x;
-    m_Bbox.y = y;
+    m_WorldBox.x = x;
+    m_WorldBox.y = y;
 }
 
 void Object::SetRotation(const float degree)
@@ -34,23 +33,17 @@ void Object::SetRotation(const float degree)
 
 b2Vec2 Object::GetPosition()
 {
-    return b2Vec2(m_Bbox.x, m_Bbox.y);
+    return b2Vec2(m_WorldBox.x, m_WorldBox.y);
 }
 
 SDL_Rect Object::GetBoundingBox()
 {
-    return m_Bbox;
+    return m_WorldBox;
 }
 
 void Object::Update()
 {
     
-}
-
-void Object::Draw(SDL_Renderer* Renderer) const
-{
-    SDL_Point p; p.x = 0; p.y = 0;
-    SDL_RenderCopyEx(Renderer, m_Texture, NULL, &m_Bbox, -m_Degree, &p, SDL_FLIP_NONE);
 }
 
 SDL_Surface* Object::PngToSurface(const std::string& PngPath, const int w, const int h)
@@ -73,7 +66,7 @@ SDL_Surface* Object::PngToSurface(const std::string& PngPath, const int w, const
 void Object::SetTexture(SDL_Renderer* Renderer)
 {
     m_Texture = SDL_CreateTextureFromSurface(Renderer, m_Surface);
-    if (m_Texture == NULL)
+    if (!m_Texture)
     {
         fprintf(stderr, "CreateTextureFromSurface failed: %s\n", SDL_GetError());
         exit(1);
