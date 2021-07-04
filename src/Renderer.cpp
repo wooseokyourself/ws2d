@@ -22,7 +22,7 @@ Renderer* Renderer::GetRenderer(const std::string WindowTitle, const int w, cons
 	return this_Renderer;
 }
 
-void Renderer::DestroyRenderer()
+void Renderer::Destroy()
 {
 	if (!this_Renderer)
 		return;

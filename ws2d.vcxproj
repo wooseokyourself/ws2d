@@ -23,7 +23,6 @@
     <ClCompile Include="include\3rdparty\douglas-peucker\polygon-simplify.cc" />
     <ClCompile Include="include\3rdparty\polypartition-master\src\polypartition.cpp" />
     <ClCompile Include="src\GameLoop.cpp" />
-    <ClCompile Include="src\Interface.cpp" />
     <ClCompile Include="src\Level.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Object.cpp" />

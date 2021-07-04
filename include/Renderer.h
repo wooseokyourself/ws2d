@@ -13,7 +13,7 @@ private:
 
 public:
 	static Renderer* GetRenderer(const std::string WindowTitle, const int w, const int h);
-	static void DestroyRenderer();
+	static void Destroy();
 
 public:
 	void Render(Level* TargetLevel, Camera* View);

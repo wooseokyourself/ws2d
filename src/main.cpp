@@ -2,6 +2,7 @@
 #include <box2d.h>
 #include <iostream>
 
+#include "Interface.h"
 #include "Renderer.h"
 #include "RigidObject.h"
 #include "Level.h"
@@ -9,11 +10,14 @@
 
 using namespace std;
 
-const int LEVEL_WIDTH = 2000, LEVEL_HEIGHT = 1000;
+const int LEVEL_WIDTH = 640, LEVEL_HEIGHT = 480;
 const int SCREEN_WIDTH = 640, SCREEN_HEIGHT = 480;
 
 int main(int argc, char* argv[])
 {
+	// I/O Manager
+	Interface* OnlyInterface = Interface::GetInterface();
+
     // Renderer
 	Renderer* OnlyRenderer = Renderer::GetRenderer("WindowTitle", SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -46,39 +50,28 @@ int main(int argc, char* argv[])
 	while (GameLoop)
 	{
 		// Interface
-		SDL_Event Event;
-		while (SDL_PollEvent(&Event))
+		OnlyInterface->Input();
+		if (OnlyInterface->IsHeldDown(SDLK_RIGHT))
+			View->m_Rect.x += 1;
+		if (OnlyInterface->IsHeldDown(SDLK_LEFT))
+			View->m_Rect.x -= 1;
+		if (OnlyInterface->IsHeldDown(SDLK_UP))
+			View->m_Rect.y -= 1;
+		if (OnlyInterface->IsHeldDown(SDLK_DOWN))
+			View->m_Rect.y += 1;
+		if (OnlyInterface->IsHeldDown(SDLK_ESCAPE))
+			GameLoop = false;
+		b2Vec2 Pos = OnlyInterface->GetMouseLeftClickedPosition();
+		if (Pos.x != -1 && Pos.y != -1)
 		{
-			if (Event.type == SDL_QUIT)
-				break;
-			else if (Event.type == SDL_KEYDOWN)
-			{
-				switch (Event.key.keysym.sym)
-				{
-				case SDLK_RIGHT:
-					View->m_Rect.x += 10;
-					break;
-				case SDLK_LEFT:
-					View->m_Rect.x -= 10;
-					break;
-				case SDLK_UP:
-					View->m_Rect.y -= 10;
-					break;
-				case SDLK_DOWN:
-					View->m_Rect.y += 10;
-					break;
-				case SDLK_ESCAPE:
-					GameLoop = false;
-					break;
-				default:
-					break;
-				}
-			}
+			View->m_Rect.x = Pos.x - View->m_Rect.w / 2;
+			View->m_Rect.y = Pos.y - View->m_Rect.h / 2;
 		}
+
         
         BasicLevel->Update();
 		OnlyRenderer->Render(BasicLevel, View);
 	}
-	OnlyRenderer->DestroyRenderer();
+	OnlyRenderer->Destroy();
 	return EXIT_SUCCESS;
 }
