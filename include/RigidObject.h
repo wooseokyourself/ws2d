@@ -16,6 +16,7 @@ public:
     void SetRotation(const float degree);
 	virtual void Update();
     void ApplyPhysics(b2World* b2_World);
+    void Move();
     
 private: // Box2d
 	b2Body* m_b2_Body;
